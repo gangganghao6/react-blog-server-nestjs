@@ -24,7 +24,8 @@ export class BlogsController {
     private readonly imagesService: ImagesService,
     private readonly commentsService: CommentsService,
     private readonly infoService: InfoService,
-  ) {}
+  ) {
+  }
 
   /**
    * 创建文章
@@ -64,11 +65,23 @@ export class BlogsController {
 
   /**
    * 模糊查找
-   * @param text
+   * @param query
    */
   @Get('search')
-  async findByLike(@Query('text') text: string) {
-    return await this.blogsService.findByLike(text);
+  async findByLike(
+    @Query()
+    query: {
+      text?: string;
+      tag?: string;
+      pageNum: number;
+      pageSize: number;
+    },
+  ): Promise<BlogsRo> {
+    if (query.text) {
+      return await this.blogsService.searchBlogByText(query);
+    } else if (query.tag) {
+      return await this.blogsService.searchBlogByTag(query);
+    }
   }
 
   @Get('hotandrecommend')

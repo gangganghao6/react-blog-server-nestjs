@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { InfoEntity } from './info.entity';
 import { TagsEntity } from '../tags/tags.entity';
 import { TimelinesEntity } from '../timelines/timelines.entity';
-import { VisitInfosEntity } from '../visit-infos/timelines.entity';
+import { VisitInfosEntity } from '../visit-infos/visit-infos.entity';
 
 @Global()
 @Module({

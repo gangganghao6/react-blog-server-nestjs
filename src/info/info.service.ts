@@ -8,7 +8,8 @@ import { CommentsEntity } from '../comments/comments.entity';
 import { InnerCommentsEntity } from '../comments/inner-comments/inner-comments.entity';
 import { TagsEntity } from '../tags/tags.entity';
 import { TimelinesEntity } from '../timelines/timelines.entity';
-import { VisitInfosEntity } from '../visit-infos/timelines.entity';
+import { VisitInfosEntity } from '../visit-infos/visit-infos.entity';
+import * as UAParser from 'ua-parser-js';
 
 interface userInfo {
   userHeader: string;
@@ -49,7 +50,10 @@ export class InfoService {
 
   async storeIp(header): Promise<InfoEntity> {
     const host = header.host;
-    const device = header['user-agent'].includes('Mobile') ? 'Mobile' : 'Other';
+    const test = new UAParser(header['user-agent']);
+    const device = header['user-agent'].includes('Mobile')
+      ? 'Mobile'
+      : 'Desktop';
     const item = await this.infoRepository.findOne({
       where: {
         id: 1,
@@ -65,6 +69,8 @@ export class InfoService {
         this.infoRepository.manager.getRepository(VisitInfosEntity).create({
           time: +new Date(),
           ip: host,
+          os: test.getOS().name ? test.getOS().name : 'Other',
+          browser: test.getBrowser().name ? test.getBrowser().name : 'Other',
           device,
         }),
       ],
@@ -203,5 +209,11 @@ export class InfoService {
       topCardId: id,
       topCardColor: color,
     });
+  }
+
+  async getVisitInfos(): Promise<VisitInfosEntity[]> {
+    return await this.infoRepository.manager
+      .getRepository(VisitInfosEntity)
+      .find();
   }
 }

@@ -13,7 +13,8 @@ export class BlogsService {
   constructor(
     @InjectRepository(BlogsEntity)
     private readonly blogsRepository: Repository<BlogsEntity>,
-  ) {}
+  ) {
+  }
 
   // 创建文章
   async create(blog: Partial<BlogsEntity>): Promise<BlogsEntity> {
@@ -60,6 +61,76 @@ export class BlogsService {
     return { list: result, count };
   }
 
+
+  //根据(title和content)或tag搜索文章
+  async searchBlogByText(query): Promise<BlogsRo> {
+    const { pageNum = 1, pageSize = 10 } = query;
+    const result = await this.blogsRepository.find({
+      relations: {
+        images: true,
+        comments: {
+          innerComments: true,
+        },
+      },
+      order: {
+        time: 'DESC',
+      },
+      withDeleted: false,
+      skip: pageSize * (pageNum - 1),
+      take: pageSize,
+      where: [
+        {
+          title: Like('%' + query.text + '%'),
+        },
+        {
+          content: Like('%' + query.text + '%'),
+        },
+      ],
+    });
+    const count = await this.blogsRepository.count({
+      where: [
+        {
+          title: Like('%' + query.text + '%'),
+        },
+        {
+          content: Like('%' + query.text + '%'),
+        },
+      ],
+    });
+    return { list: result, count };
+  }
+
+  async searchBlogByTag(query): Promise<BlogsRo> {
+    const { pageNum = 1, pageSize = 10 } = query;
+    const result = await this.blogsRepository.find({
+      relations: {
+        images: true,
+        comments: {
+          innerComments: true,
+        },
+      },
+      order: {
+        time: 'DESC',
+      },
+      withDeleted: false,
+      skip: pageSize * (pageNum - 1),
+      take: pageSize,
+      where: [
+        {
+          tag: Like('%' + query.tag + '%'),
+        },
+      ],
+    });
+    const count = await this.blogsRepository.count({
+      where: [
+        {
+          tag: Like('%' + query.tag + '%'),
+        },
+      ],
+    });
+    return { list: result, count };
+  }
+
   // 获取指定文章
   async findById(id): Promise<BlogsEntity> {
     await this.updateView(id);
@@ -87,25 +158,6 @@ export class BlogsService {
     return result;
   }
 
-  async findByLike(text): Promise<BlogsRo> {
-    const [result, count] = await this.blogsRepository.findAndCount({
-      relations: {
-        images: true,
-        comments: {
-          innerComments: true,
-        },
-      },
-      where: [
-        {
-          title: Like(`%${text}%`),
-        },
-        {
-          content: Like(`%${text}%`),
-        },
-      ],
-    });
-    return { list: result, count };
-  }
 
   async getHotAndRecommendBlog(): Promise<{
     recommend: BlogsEntity[];

@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { TagsEntity } from '../tags/tags.entity';
 import { TimelinesEntity } from '../timelines/timelines.entity';
-import { VisitInfosEntity } from '../visit-infos/timelines.entity';
+import { VisitInfosEntity } from '../visit-infos/visit-infos.entity';
 
 @Entity('info')
 export class InfoEntity {

@@ -5,6 +5,11 @@ import { ImagesEntity } from './images.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as images from 'images';
+import * as imagemin from 'imagemin';
+import * as imageminJpegtran from 'imagemin-jpegtran';
+import imageminPngquant from 'imagemin-pngquant';
+import * as webp from 'webp-converter';
+
 
 @Injectable()
 export class ImagesService {
@@ -69,9 +74,9 @@ export class ImagesService {
               path.join(this.blogImagesPath, file.originalname),
               file.buffer,
             );
-            this.compressImage(
-              file.buffer,
-              path.join(this.blogImagesPath, `gzip_${file.originalname}`),
+            await this.compressImage(
+              path.join(this.blogImagesPath, `${file.originalname}`),
+              path.join(this.blogImagesPath, `gzip_${file.originalname}.webp`),
             );
           } catch (e) {
             console.log(e);
@@ -80,7 +85,7 @@ export class ImagesService {
         filesArray.push({
           imageName: file.originalname,
           originSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/blogImages/${file.originalname}`,
-          gzipSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/blogImages/gzip_${file.originalname}`,
+          gzipSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/blogImages/gzip_${file.originalname}.webp`,
         });
       }
     } else if (type === 'albums') {
@@ -93,9 +98,9 @@ export class ImagesService {
               path.join(this.albumImagesPath, file.originalname),
               file.buffer,
             );
-            this.compressImage(
-              file.buffer,
-              path.join(this.albumImagesPath, `gzip_${file.originalname}`),
+            await this.compressImage(
+              path.join(this.albumImagesPath, `${file.originalname}`),
+              path.join(this.albumImagesPath, `gzip_${file.originalname}.webp`),
             );
           } catch (e) {
             console.log(e);
@@ -104,7 +109,7 @@ export class ImagesService {
         filesArray.push({
           imageName: file.originalname,
           originSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/albumImages/${file.originalname}`,
-          gzipSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/albumImages/gzip_${file.originalname}`,
+          gzipSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/albumImages/gzip_${file.originalname}.webp`,
         });
       }
     } else if (type === 'header') {
@@ -129,9 +134,18 @@ export class ImagesService {
     return filesArray;
   }
 
-  compressImage(buffer, gizpName) {
-    images(buffer).save(gizpName, {
-      quality: 20,
+  // compressImage(buffer: Buffer, gizpName: string) {
+  //   images(buffer).save(gizpName, {
+  //     quality: 50,
+  //     compressionLevel: 9,
+  //   });
+  // }
+
+  compressImage(originName, gzipName) {
+    return new Promise<void>((res, rej) => {
+      webp.cwebp(originName, gzipName, '-q 80').then(() => {
+        res();
+      });
     });
   }
 }

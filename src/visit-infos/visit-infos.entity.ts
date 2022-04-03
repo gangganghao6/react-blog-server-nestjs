@@ -23,6 +23,10 @@ export class VisitInfosEntity {
 
   @Column({ type: 'text' })
   device: string;
+  @Column({ type: 'text' })
+  os: string;
+  @Column({ type: 'text' })
+  browser: string;
 
   @ManyToOne(() => InfoEntity, (info) => info.visitInfos, {
     createForeignKeyConstraints: false,

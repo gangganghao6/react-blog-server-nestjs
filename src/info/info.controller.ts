@@ -94,4 +94,8 @@ export class InfoController {
   async getFooter() {
     return footers;
   }
+  @Get('visitInfos')
+  async getVisitInfos() {
+    return await this.infoService.getVisitInfos();
+  }
 }

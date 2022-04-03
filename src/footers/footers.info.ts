@@ -4,7 +4,7 @@ export const footers = [
     items: [
       {
         title: 'QQ',
-        url: 'http://wpa.qq.com/msgrd?v=3&uin=530394623&site=qq&menu=yes',
+        url: 'tencent://message/?uin=2881591276&Menu=yes',
         description: '530394623',
         openExternal: true,
       },

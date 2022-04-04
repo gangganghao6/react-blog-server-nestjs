@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { BlogsEntity } from './blogs.entity';
+import { InfoEntity } from '../info/info.entity';
 
 export interface BlogsRo {
   list: BlogsEntity[];
@@ -29,8 +30,8 @@ export class BlogsService {
     return await this.blogsRepository.save(blog);
   }
 
-  async updateView(id: number): Promise<boolean> {
-    const result = await this.blogsRepository.increment({ id }, 'view', 1);
+  async updateView(id: number, value = 1): Promise<boolean> {
+    const result = await this.blogsRepository.increment({ id }, 'view', value);
     return result.affected > 0;
   }
 
@@ -52,12 +53,6 @@ export class BlogsService {
       take: pageSize,
     });
     const count = await this.blogsRepository.count();
-    // const test = await this.blogsRepository.findBy({
-    //   title: Like('%更人候%'),
-    //   images: {
-    //     originSrc: Like('%com%'),
-    //   },
-    // });
     return { list: result, count };
   }
 
@@ -133,7 +128,7 @@ export class BlogsService {
 
   // 获取指定文章
   async findById(id): Promise<BlogsEntity> {
-    await this.updateView(id);
+    await this.updateView(id, 1);
     const result = await this.blogsRepository.findOne({
       relations: {
         images: true,

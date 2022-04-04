@@ -4,10 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ImagesEntity } from './images.entity';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as images from 'images';
-import * as imagemin from 'imagemin';
-import * as imageminJpegtran from 'imagemin-jpegtran';
-import imageminPngquant from 'imagemin-pngquant';
 import * as webp from 'webp-converter';
 
 
@@ -101,6 +97,7 @@ export class ImagesService {
             await this.compressImage(
               path.join(this.albumImagesPath, `${file.originalname}`),
               path.join(this.albumImagesPath, `gzip_${file.originalname}.webp`),
+              5,
             );
           } catch (e) {
             console.log(e);
@@ -134,16 +131,10 @@ export class ImagesService {
     return filesArray;
   }
 
-  // compressImage(buffer: Buffer, gizpName: string) {
-  //   images(buffer).save(gizpName, {
-  //     quality: 50,
-  //     compressionLevel: 9,
-  //   });
-  // }
 
-  compressImage(originName, gzipName) {
+  compressImage(originName, gzipName, quantity = 30) {
     return new Promise<void>((res, rej) => {
-      webp.cwebp(originName, gzipName, '-q 80').then(() => {
+      webp.cwebp(originName, gzipName, `-q ${quantity}`).then(() => {
         res();
       });
     });

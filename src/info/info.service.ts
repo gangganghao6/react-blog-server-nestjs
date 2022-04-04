@@ -38,6 +38,11 @@ export class InfoService {
             totalBlogs: 0,
             totalComments: 0,
             startTime: +new Date(),
+            userHeader: '',
+            userName: '',
+            userDescription: '',
+            topCardId: 0,
+            topCardColor: 'white',
           });
         }
       });
@@ -49,7 +54,7 @@ export class InfoService {
   }
 
   async storeIp(header): Promise<InfoEntity> {
-    const host = header.host;
+    const host = header['x-real-ip'] || header['x-forwarded-for'] || header.host;
     const test = new UAParser(header['user-agent']);
     const device = header['user-agent'].includes('Mobile')
       ? 'Mobile'
@@ -125,7 +130,11 @@ export class InfoService {
   async getTimelines(): Promise<TimelinesEntity[]> {
     return await this.infoRepository.manager
       .getRepository(TimelinesEntity)
-      .find();
+      .find({
+        order: {
+          time: 'DESC',
+        },
+      });
   }
 
   async createTimelines(timeline: TimelinesEntity): Promise<TimelinesEntity[]> {

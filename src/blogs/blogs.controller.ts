@@ -57,10 +57,11 @@ export class BlogsController {
   /**
    * 更新浏览量
    * @param id
+   * @param value
    */
   @Put('view/:id')
-  async updateView(@Param('id') id) {
-    return await this.blogsService.updateView(id);
+  async updateView(@Param('id') id, @Body() value) {
+    return await this.blogsService.updateView(id, value.value);
   }
 
   /**
@@ -70,7 +71,7 @@ export class BlogsController {
   @Get('search')
   async findByLike(
     @Query()
-    query: {
+      query: {
       text?: string;
       tag?: string;
       pageNum: number;

@@ -78,9 +78,9 @@ export class BlogsController {
       pageSize: number;
     },
   ): Promise<BlogsRo> {
-    if (query.text) {
+    if ('text' in query) {
       return await this.blogsService.searchBlogByText(query);
-    } else if (query.tag) {
+    } else if ('tag' in query) {
       return await this.blogsService.searchBlogByTag(query);
     }
   }

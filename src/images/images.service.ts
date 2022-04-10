@@ -97,7 +97,7 @@ export class ImagesService {
             await this.compressImage(
               path.join(this.albumImagesPath, `${file.originalname}`),
               path.join(this.albumImagesPath, `gzip_${file.originalname}.webp`),
-              5,
+              0,
             );
           } catch (e) {
             console.log(e);

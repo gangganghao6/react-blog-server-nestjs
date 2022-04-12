@@ -73,6 +73,8 @@ export class ImagesService {
             await this.compressImage(
               path.join(this.blogImagesPath, `${file.originalname}`),
               path.join(this.blogImagesPath, `gzip_${file.originalname}.webp`),
+              95,
+              800,
             );
           } catch (e) {
             console.log(e);
@@ -97,7 +99,8 @@ export class ImagesService {
             await this.compressImage(
               path.join(this.albumImagesPath, `${file.originalname}`),
               path.join(this.albumImagesPath, `gzip_${file.originalname}.webp`),
-              0,
+              80,
+              400,
             );
           } catch (e) {
             console.log(e);
@@ -131,12 +134,22 @@ export class ImagesService {
     return filesArray;
   }
 
-
-  compressImage(originName, gzipName, quantity = 30) {
-    return new Promise<void>((res, rej) => {
-      webp.cwebp(originName, gzipName, `-q ${quantity}`).then(() => {
-        res();
-      });
+  compressImage(
+    originName: string,
+    gzipName: string,
+    quantity = 80,
+    height = 600,
+  ) {
+    return new Promise<void>((res) => {
+      webp
+        .cwebp(
+          originName,
+          gzipName,
+          `-q ${quantity} -m 6 -resize 0 ${height} -mt -low_memory`,
+        )
+        .then(() => {
+          res();
+        });
     });
   }
 }

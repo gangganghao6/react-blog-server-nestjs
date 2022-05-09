@@ -4,7 +4,6 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { ImagesEntity } from '../images/images.entity';
 import { CommentsEntity } from '../comments/comments.entity';
@@ -20,7 +19,7 @@ export class BlogsEntity {
   @Column({ type: 'text' })
   title: string;
 
-  @Column({ type: 'mediumtext' })
+  @Column({ type: 'text' })
   content: string;
 
   @Column({ type: 'boolean', default: false })

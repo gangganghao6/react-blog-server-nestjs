@@ -54,7 +54,8 @@ export class InfoService {
   }
 
   async storeIp(header): Promise<InfoEntity> {
-    const host = header['x-real-ip'] || header['x-forwarded-for'] || header.host;
+    const host =
+      header['x-real-ip'] || header['x-forwarded-for'] || header.host;
     const test = new UAParser(header['user-agent']);
     const device = header['user-agent'].includes('Mobile')
       ? 'Mobile'

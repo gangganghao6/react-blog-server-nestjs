@@ -24,8 +24,7 @@ export class BlogsController {
     private readonly imagesService: ImagesService,
     private readonly commentsService: CommentsService,
     private readonly infoService: InfoService,
-  ) {
-  }
+  ) {}
 
   /**
    * 创建文章
@@ -71,7 +70,7 @@ export class BlogsController {
   @Get('search')
   async findByLike(
     @Query()
-      query: {
+    query: {
       text?: string;
       tag?: string;
       pageNum: number;

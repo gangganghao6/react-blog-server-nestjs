@@ -15,20 +15,20 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // 设置错误信息
     const message = exception.message
       ? exception.message
-      : `${status >= 500 ? "Service Error" : "Client Error"}`;
+      : `${status >= 500 ? 'Service Error' : 'Client Error'}`;
     const errorResponse = {
       data: {},
       message: message,
-      code: -1
+      code: -1,
     };
 
     // 设置返回的状态码， 请求头，发送错误信息
     response.status(status);
-    response.header("Content-Type", "application/json; charset=utf-8");
-    response.header("Access-Control-Allow-Origin", "*");
-    response.header("Access-Control-Allow-Headers", "*");
-    response.header("Access-Control-Allow-Methods", "*");
-    response.header("Access-Control-Allow-Credentials", true);
+    response.header('Content-Type', 'application/json; charset=utf-8');
+    response.header('Access-Control-Allow-Origin', '*');
+    response.header('Access-Control-Allow-Headers', '*');
+    response.header('Access-Control-Allow-Methods', '*');
+    response.header('Access-Control-Allow-Credentials', true);
     response.send(errorResponse);
   }
 }

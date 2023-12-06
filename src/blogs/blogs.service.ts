@@ -14,8 +14,7 @@ export class BlogsService {
   constructor(
     @InjectRepository(BlogsEntity)
     private readonly blogsRepository: Repository<BlogsEntity>,
-  ) {
-  }
+  ) {}
 
   // 创建文章
   async create(blog: Partial<BlogsEntity>): Promise<BlogsEntity> {
@@ -55,7 +54,6 @@ export class BlogsService {
     const count = await this.blogsRepository.count();
     return { list: result, count };
   }
-
 
   //根据(title和content)或tag搜索文章
   async searchBlogByText(query): Promise<BlogsRo> {
@@ -152,7 +150,6 @@ export class BlogsService {
     }
     return result;
   }
-
 
   async getHotAndRecommendBlog(): Promise<{
     recommend: BlogsEntity[];

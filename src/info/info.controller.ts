@@ -23,8 +23,7 @@ export class InfoController {
   constructor(
     private readonly infoService: InfoService,
     private readonly imagesService: ImagesService,
-  ) {
-  }
+  ) {}
 
   @Get()
   async getInfo(@Headers() header) {

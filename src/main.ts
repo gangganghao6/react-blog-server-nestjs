@@ -3,6 +3,10 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './core/filter/http-exception.filter';
 import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as dotenv from 'dotenv'
+const isDev = process.env.NODE_ENV === 'dev' ? true : false
+
+dotenv.config({ path: isDev ? '.env' : '.env.prod' })
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

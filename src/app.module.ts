@@ -43,7 +43,7 @@ import * as path from 'path';
         // database: configService.get('DB_DATABASE', 'blogs'), //数据库名
         timezone: '+08:00', //服务器上配置的时区
         synchronize: true, //根据实体自动创建数据库表， 生产环境建议关闭
-        database: './blogs.db',
+        database: path.join(process.env.DATABASE_PATH, 'blogs.db'),
         enableWAL: true,
         busyErrorRetry: 10,
       }),
@@ -57,4 +57,4 @@ import * as path from 'path';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

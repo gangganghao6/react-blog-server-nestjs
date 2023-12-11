@@ -93,7 +93,7 @@ export class InfoController {
   }
 
   @Get('footers')
-  async getFooter() {
+  async getFooter() {    
     return footers;
   }
 

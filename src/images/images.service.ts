@@ -81,8 +81,8 @@ export class ImagesService {
         }
         filesArray.push({
           imageName: file.originalname,
-          originSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/blogImages/${file.originalname}`,
-          gzipSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/blogImages/gzip_${file.originalname}.webp`,
+          originSrc: `http://${process.env.MY_IP}:${process.env.MY_PORT}/blogImages/${file.originalname}`,
+          gzipSrc: `http://${process.env.MY_IP}:${process.env.MY_PORT}/blogImages/gzip_${file.originalname}.webp`,
         });
       }
     } else if (type === 'albums') {
@@ -107,8 +107,8 @@ export class ImagesService {
         }
         filesArray.push({
           imageName: file.originalname,
-          originSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/albumImages/${file.originalname}`,
-          gzipSrc: `http://${process.env.my_IP}:${process.env.my_PORT}/albumImages/gzip_${file.originalname}.webp`,
+          originSrc: `http://${process.env.MY_IP}:${process.env.MY_PORT}/albumImages/${file.originalname}`,
+          gzipSrc: `http://${process.env.MY_IP}:${process.env.MY_PORT}/albumImages/gzip_${file.originalname}.webp`,
         });
       }
     } else if (type === 'header') {
@@ -126,7 +126,7 @@ export class ImagesService {
           }
         }
         return {
-          userHeader: `http://${process.env.my_IP}:${process.env.my_PORT}/otherImages/${file.originalname}`,
+          userHeader: `http://${process.env.MY_IP}:${process.env.MY_PORT}/otherImages/${file.originalname}`,
         };
       }
     }

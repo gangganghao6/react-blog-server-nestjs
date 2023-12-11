@@ -13,11 +13,14 @@ import { InfoModule } from './info/info.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import * as path from 'path';
 
+// import * as dotenv from 'dotenv';
+// console.log([process.env.NODE_ENV.trim() == 'dev' ? '.env' : '.env.prod', envConfig.path]);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // 设置为全局
-      envFilePath: [envConfig.path],
+      envFilePath: [process.env.NODE_ENV.trim() == 'dev' ? '.env' : '.env.prod'],
     }),
     ServeStaticModule.forRoot({
       rootPath: path.join(process.env.STATIC_PATH),
@@ -57,4 +60,4 @@ import * as path from 'path';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

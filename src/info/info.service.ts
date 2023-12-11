@@ -41,7 +41,7 @@ export class InfoService {
             userHeader: '',
             userName: '',
             userDescription: '',
-            topCardId: 0,
+            topCardId: null,
             topCardColor: 'white',
           });
         }

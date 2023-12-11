@@ -3,10 +3,12 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './core/filter/http-exception.filter';
 import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
 
-const isDev = process.env.NODE_ENV === 'dev' ? true : false;
-process.env = dotenv.config({ path: isDev ? '.env' : '.env.prod' }).parsed;
+// const isDev = process.env.NODE_ENV.trim() == 'dev' ? true : false;
+// process.env = dotenv.config({ path: isDev ? '.env' : '.env.prod' }).parsed;
+// dotenv.config({ path: isDev ? '.env' : '.env.prod', override: true })
+// console.log(1, process.env.MY_IP);
 
 
 async function bootstrap() {
@@ -20,7 +22,7 @@ async function bootstrap() {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: '*',
-  }); // 允许跨域
+  }); // 允许跨域    
   await app.listen(process.env.MY_PORT);
 }
 
